@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+
+const mosqueNames = [
+  "Grand Jummah Mosque",
+  "Thaika Nagar Jummah Mosque",
+  "Konawatta Jummah Mosque",
+  "Masjidul Hudha Jummah Mosque Meenodaikattu",
+  "Meelad Nagar Jummah Mosque",
+  "Sambu Nagar Jummah Mosque",
+  "Aalamkulam Jummah Mosque",
+  "Masjidur Rahman Jummah Mosque",
+  "Masjid Han-Lalath Ibn Aamir",
+  "MASJIDUTH THA’WA (CIC)"
+];
 
 const InputForm = ({ onGenerate }) => {
   const [formData, setFormData] = useState({
-    date: '',
-    mosques: [{ name: '', speaker: '', designation: '' }],
+    date: "",
+    backgroundColor: "#4e0176", // Default background color
+    mosques: mosqueNames.map(() => ({ speaker: "", designation: "" }))
   });
 
   const handleChange = (e, index) => {
@@ -11,13 +25,6 @@ const InputForm = ({ onGenerate }) => {
     const newMosques = [...formData.mosques];
     newMosques[index][name] = value;
     setFormData({ ...formData, mosques: newMosques });
-  };
-
-  const addMosque = () => {
-    setFormData({
-      ...formData,
-      mosques: [...formData.mosques, { name: '', speaker: '', designation: '' }],
-    });
   };
 
   const handleSubmit = (e) => {
@@ -36,29 +43,31 @@ const InputForm = ({ onGenerate }) => {
           onChange={(e) => setFormData({ ...formData, date: e.target.value })}
         />
       </label>
-      {formData.mosques.map((mosque, index) => (
+      <label>
+        Background Color:
+        <input
+          type="color"
+          value={formData.backgroundColor}
+          onChange={(e) => setFormData({ ...formData, backgroundColor: e.target.value })}
+        />
+      </label>
+      {mosqueNames.map((name, index) => (
         <div key={index}>
-          <input
-            name="name"
-            placeholder="Mosque Name"
-            value={mosque.name}
-            onChange={(e) => handleChange(e, index)}
-          />
+          <h4>{name}</h4>
           <input
             name="speaker"
             placeholder="Speaker Name"
-            value={mosque.speaker}
+            value={formData.mosques[index].speaker}
             onChange={(e) => handleChange(e, index)}
           />
           <input
             name="designation"
             placeholder="Designation"
-            value={mosque.designation}
+            value={formData.mosques[index].designation}
             onChange={(e) => handleChange(e, index)}
           />
         </div>
       ))}
-      <button type="button" onClick={addMosque}>Add Mosque</button>
       <button type="submit">Generate Image</button>
     </form>
   );
