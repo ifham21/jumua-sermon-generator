@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useRef, useState } from 'react';
+import InputForm from './components/InputForm';
+import ImageLayout from './components/ImageLayout';
+import { toPng } from 'html-to-image';
 
-function App() {
+const App = () => {
+  const [data, setData] = useState(null);
+  const imageRef = useRef();
+
+  const handleGenerate = (formData) => {
+    setData(formData);
+  };
+
+  const downloadImage = () => {
+    if (imageRef.current) {
+      toPng(imageRef.current)
+        .then((dataUrl) => {
+          const link = document.createElement('a');
+          link.href = dataUrl;
+          link.download = 'jumua-sermons.png';
+          link.click();
+        })
+        .catch((err) => {
+          console.error('Error generating image', err);
+        });
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <InputForm onGenerate={handleGenerate} />
+      {data && (
+        <>
+          <ImageLayout ref={imageRef} data={data} />
+          <button onClick={downloadImage}>Download as PNG</button>
+        </>
+      )}
     </div>
   );
-}
+};
 
 export default App;
