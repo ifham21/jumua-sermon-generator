@@ -3,33 +3,33 @@ import InputForm from "./components/InputForm";
 import ImageLayout from "./components/ImageLayout";
 import { toPng } from "html-to-image";
 
-// Function to return consistent styles for the layout container
+// Layout styling function
 const layoutStyles = () => ({
-  width: "1000px", // Ensure consistent width
-  margin: "0 auto", // Center the layout horizontally
+  width: "1000px", // Fixed width for consistency
+  margin: "0 auto", // Center the layout
   overflow: "visible", // Avoid clipping
-  padding: "20px", // Add padding to prevent content from touching edges
-  backgroundColor: "#1c6970", // Example background color
-  borderRadius: "10px", // Rounded corners for aesthetic
-  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", // Add shadow for depth
+  padding: "20px",
+  backgroundColor: "#1c6970", // Background color
+  borderRadius: "10px",
+  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)" // Shadow for a neat effect
 });
 
 const App = () => {
-  const [data, setData] = useState(null);
-  const imageRef = useRef();
+  const [data, setData] = useState(null); // State to store form data
+  const imageRef = useRef(); // Ref to capture the layout DOM element
 
-  // Handle form data and set state
+  // Handle form submission and update data
   const handleGenerate = (formData) => {
     setData(formData);
   };
 
-  // Function to download the generated image
+  // Generate and download the PNG image
   const downloadImage = () => {
-    const node = imageRef.current; // Use the ref to access the DOM node
+    const node = imageRef.current; // DOM node reference
     if (node) {
       toPng(node, {
-        width: 1000, // Explicit width
-        height: node.scrollHeight, // Dynamically capture height
+        width: 1000, // Image width
+        height: node.scrollHeight // Dynamic height
       })
         .then((dataUrl) => {
           const link = document.createElement("a");
@@ -37,9 +37,7 @@ const App = () => {
           link.href = dataUrl;
           link.click();
         })
-        .catch((error) => {
-          console.error("Error generating image:", error);
-        });
+        .catch((error) => console.error("Error generating image:", error));
     } else {
       console.error("Image layout node is null.");
     }
@@ -47,12 +45,11 @@ const App = () => {
 
   return (
     <div>
-      <InputForm onGenerate={handleGenerate} />
+      <InputForm onGenerate={handleGenerate} /> {/* Form for user input */}
       {data && (
         <div style={layoutStyles()}>
-          {/* Assign the ref to the wrapper element of ImageLayout */}
           <div id="image-layout" ref={imageRef}>
-            <ImageLayout data={data} />
+            <ImageLayout data={data} /> {/* Render the layout */}
           </div>
           <button
             onClick={downloadImage}
@@ -64,7 +61,7 @@ const App = () => {
               border: "none",
               borderRadius: "5px",
               cursor: "pointer",
-              fontSize: "16px",
+              fontSize: "16px"
             }}
           >
             Download as PNG

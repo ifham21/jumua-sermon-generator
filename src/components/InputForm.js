@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+// List of mosque names
 const mosqueNames = [
   "Grand Jummah Mosque",
   "Thaika Nagar Jummah Mosque",
@@ -14,19 +15,22 @@ const mosqueNames = [
 ];
 
 const InputForm = ({ onGenerate }) => {
+  // Form state
   const [formData, setFormData] = useState({
-    date: "",
+    date: "", // Date of sermons
     backgroundColor: "#4e0176", // Default background color
-    mosques: mosqueNames.map(() => ({ speaker: "", designation: "" }))
+    mosques: mosqueNames.map(() => ({ speaker: "", designation: "" })) // Initialize all mosques with empty fields
   });
 
+  // Handle input change for mosques
   const handleChange = (e, index) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target; // Get field name and value
     const newMosques = [...formData.mosques];
-    newMosques[index][name] = value;
+    newMosques[index][name] = value; // Update specific mosque data
     setFormData({ ...formData, mosques: newMosques });
   };
 
+  // Submit the form and send data to parent
   const handleSubmit = (e) => {
     e.preventDefault();
     onGenerate(formData);
@@ -34,6 +38,7 @@ const InputForm = ({ onGenerate }) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* Input for date */}
       <label>
         Date:
         <input
@@ -43,14 +48,18 @@ const InputForm = ({ onGenerate }) => {
           onChange={(e) => setFormData({ ...formData, date: e.target.value })}
         />
       </label>
+      {/* Input for background color */}
       <label>
         Background Color:
         <input
           type="color"
           value={formData.backgroundColor}
-          onChange={(e) => setFormData({ ...formData, backgroundColor: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, backgroundColor: e.target.value })
+          }
         />
       </label>
+      {/* Inputs for mosque speakers and designations */}
       {mosqueNames.map((name, index) => (
         <div key={index}>
           <h4>{name}</h4>
@@ -68,6 +77,7 @@ const InputForm = ({ onGenerate }) => {
           />
         </div>
       ))}
+      {/* Submit button */}
       <button type="submit">Generate Image</button>
     </form>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import { FaMosque, FaMicrophone } from "react-icons/fa";
 
+// List of mosque names to be displayed
 const mosqueNames = [
   "Grand Jummah Mosque",
   "Thaika Nagar Jummah Mosque",
@@ -14,15 +15,16 @@ const mosqueNames = [
   "MASJIDUTH THA’WA (CIC)"
 ];
 
+// ImageLayout component: Responsible for displaying the data in a styled layout
 const ImageLayout = React.forwardRef(({ data }, ref) => {
   return (
     <div
-      ref={ref}
+      ref={ref} // Forwarded ref for capturing this component's DOM for generating an image
       style={{
         fontFamily: "Arial, sans-serif",
         textAlign: "center",
         padding: "20px",
-        backgroundColor: data.backgroundColor,
+        backgroundColor: data.backgroundColor, // Dynamic background color based on form input
         color: "white",
         borderRadius: "10px",
         width: "900px",
@@ -38,7 +40,7 @@ const ImageLayout = React.forwardRef(({ data }, ref) => {
         <p style={{ fontSize: "16px", margin: "5px 0" }}>{data.date}</p>
       </div>
 
-      {/* Grand Jummah Mosque Section */}
+      {/* Display Grand Jummah Mosque separately */}
       <div
         style={{
           display: "grid",
@@ -48,10 +50,9 @@ const ImageLayout = React.forwardRef(({ data }, ref) => {
           marginBottom: "20px"
         }}
       >
-        {/* Empty Column */}
+        {/* Empty Columns for Centering */}
         <div></div>
-
-        {/* Grand Jummah Mosque */}
+        {/* Grand Jummah Mosque Section */}
         <div
           style={{
             backgroundColor: "#712b90",
@@ -64,22 +65,22 @@ const ImageLayout = React.forwardRef(({ data }, ref) => {
             textAlign: "center"
           }}
         >
+          {/* Mosque Icon */}
           <FaMosque size={30} style={{ marginBottom: "10px" }} />
           <h3 style={{ fontSize: "14px", fontWeight: "bold", marginBottom: "5px" }}>
-            {mosqueNames[0]}
+            {mosqueNames[0]} {/* Name of the mosque */}
           </h3>
+          {/* Speaker Information */}
           <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
             <FaMicrophone size={16} />
             <p style={{ fontSize: "12px", margin: "0" }}>
-              {data.mosques[0]?.speaker || "TBA"}
+              {data.mosques[0]?.speaker || "TBA"} {/* Speaker Name */}
             </p>
           </div>
           <p style={{ fontSize: "12px", margin: "5px 0", fontStyle: "italic" }}>
-            ({data.mosques[0]?.designation || "TBA"})
+            ({data.mosques[0]?.designation || "TBA"}) {/* Speaker Designation */}
           </p>
         </div>
-
-        {/* Empty Column */}
         <div></div>
       </div>
 
@@ -87,7 +88,7 @@ const ImageLayout = React.forwardRef(({ data }, ref) => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
+          gridTemplateColumns: "repeat(3, 1fr)", // Three columns
           gap: "20px"
         }}
       >
@@ -107,16 +108,16 @@ const ImageLayout = React.forwardRef(({ data }, ref) => {
           >
             <FaMosque size={30} style={{ marginBottom: "10px" }} />
             <h3 style={{ fontSize: "14px", fontWeight: "bold", marginBottom: "5px" }}>
-              {name}
+              {name} {/* Name of the mosque */}
             </h3>
             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
               <FaMicrophone size={16} />
               <p style={{ fontSize: "12px", margin: "0" }}>
-                {data.mosques[index + 1]?.speaker || "TBA"}
+                {data.mosques[index + 1]?.speaker || "TBA"} {/* Speaker Name */}
               </p>
             </div>
             <p style={{ fontSize: "12px", margin: "5px 0", fontStyle: "italic" }}>
-              ({data.mosques[index + 1]?.designation || "TBA"})
+              ({data.mosques[index + 1]?.designation || "TBA"}) {/* Designation */}
             </p>
           </div>
         ))}
